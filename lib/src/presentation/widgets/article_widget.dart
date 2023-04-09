@@ -26,9 +26,11 @@ class ArticleWidget extends StatelessWidget {
       behavior: HitTestBehavior.opaque,
       onTap: _onTap,
       child: Container(
-        padding: const EdgeInsetsDirectional.only(
-            start: 14, end: 14, bottom: 7, top: 7),
-        height: MediaQuery.of(context).size.width / 2.2,
+        padding: EdgeInsetsDirectional.symmetric(
+          vertical: 7.h,
+          horizontal: 14.w,
+        ),
+        height: 160.h,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -43,11 +45,11 @@ class ArticleWidget extends StatelessWidget {
 
   Widget _buildImage(BuildContext context) {
     return Padding(
-      padding: const EdgeInsetsDirectional.only(end: 14),
+      padding: EdgeInsetsDirectional.only(end: 14.h),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(20.0),
+        borderRadius: BorderRadius.circular(20.r),
         child: Container(
-          width: MediaQuery.of(context).size.width / 3,
+          width: 140.w,
           height: double.maxFinite,
           decoration: BoxDecoration(
             color: Colors.black.withOpacity(0.08),
@@ -72,7 +74,7 @@ class ArticleWidget extends StatelessWidget {
   Widget _buildTitleAndDescription() {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 7),
+        padding: EdgeInsets.symmetric(vertical: 7.h),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -82,10 +84,10 @@ class ArticleWidget extends StatelessWidget {
               article.title ?? '',
               maxLines: 3,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
+              style: TextStyle(
                 fontFamily: 'Butler',
                 fontWeight: FontWeight.w900,
-                fontSize: 18,
+                fontSize: 18.sp,
                 color: Colors.black87,
               ),
             ),
@@ -93,7 +95,7 @@ class ArticleWidget extends StatelessWidget {
             // Description
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.only(top: 4),
+                padding: EdgeInsets.only(top: 4.h),
                 child: Text(
                   article.description ?? '',
                   maxLines: 2,
@@ -110,21 +112,15 @@ class ArticleWidget extends StatelessWidget {
     if (isRemovable) {
       return GestureDetector(
         onTap: _onRemove,
-        child: const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8),
-          child: Icon(Ionicons.trash_outline, color: Colors.red),
-        ),
+        child: const Icon(Ionicons.trash_outline, color: Colors.red),
       );
     } else {
       return GestureDetector(
         onTap: _onAdd,
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8),
-          child: Icon(
-            Icons.favorite,
-            color: Colors.black,
-            size: 32.h,
-          ),
+        child: Icon(
+          Icons.favorite,
+          color: Colors.black,
+          size: 32.h,
         ),
       );
     }

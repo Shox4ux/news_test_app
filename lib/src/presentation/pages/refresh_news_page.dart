@@ -8,7 +8,6 @@ import 'package:news_test_app/src/presentation/widgets/error_widget.dart';
 import 'package:news_test_app/src/utils/constants/app_colors.dart';
 import 'package:oktoast/oktoast.dart';
 import '../../config/router/app_router.dart';
-import '../../domain/models/article.dart';
 import '../../utils/extensions/scroll_controller_extensions.dart';
 import '../widgets/article_widget.dart';
 
@@ -17,22 +16,23 @@ class BreakingNewsWithRefresh extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final remoteArticlesCubit = BlocProvider.of<RefreshActiclesCubit>(context);
+    final refreshArticlesCubit = BlocProvider.of<RefreshActiclesCubit>(context);
     final localArticlesCubit = BlocProvider.of<LocalArticlesCubit>(context);
 
     final scrollController = useScrollController();
 
     useEffect(() {
       scrollController.onScrollEndsListener(() async {
-        await remoteArticlesCubit.getBreakingNewsArticles(isJustRefresh: false);
+        await refreshArticlesCubit.getBreakingNewsArticles(
+            isJustRefresh: false);
       });
-      return scrollController.dispose;
+      return;
     }, const []);
 
     return RefreshIndicator(
       color: AppColors.mainColor,
       onRefresh: () async {
-        await remoteArticlesCubit.getBreakingNewsArticles(isJustRefresh: true);
+        await refreshArticlesCubit.getBreakingNewsArticles(isJustRefresh: true);
       },
       child: SizedBox.expand(
         child: BlocBuilder<RefreshActiclesCubit, RefreshActiclesState>(
@@ -45,7 +45,7 @@ class BreakingNewsWithRefresh extends HookWidget {
                   child: CustomErrorWidget(
                     message: state.errorMessage ?? "",
                     fun: () async {
-                      await remoteArticlesCubit.getBreakingNewsArticles(
+                      await refreshArticlesCubit.getBreakingNewsArticles(
                           isJustRefresh: true);
                     },
                   ),

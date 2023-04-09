@@ -27,6 +27,8 @@ class TimerArticlesCubit extends BaseCubit<TimerArticlesState, List<Article>> {
     if (isBusy) return;
 
     await run(() async {
+      emit(const TimerArticlesLoading());
+
       final response = await _apiRepository.getBreakingNewsArticles(
         request: BreakingNewsRequest(page: _page),
       );
@@ -43,7 +45,7 @@ class TimerArticlesCubit extends BaseCubit<TimerArticlesState, List<Article>> {
         await startTimer();
       } else if (response is DataFailed) {
         if (response.error?.response?.statusCode == APILimitErrorCode) {
-          emit(TimerArticlesLoading());
+          emit(const TimerArticlesLoading());
           Future.delayed(
             const Duration(seconds: 2),
             () {
@@ -54,7 +56,10 @@ class TimerArticlesCubit extends BaseCubit<TimerArticlesState, List<Article>> {
           return;
         }
 
-        emit(TimerArticlesFailed(error: response.error));
+        emit(TimerArticlesFailed(
+          errorMessage: response.error?.response?.data["message"] ??
+              "Something went wrong",
+        ));
       }
     });
   }
@@ -87,7 +92,10 @@ class TimerArticlesCubit extends BaseCubit<TimerArticlesState, List<Article>> {
       data.addAll(articles);
       emit(TimerArticlesSuccess(articles: data, noMoreData: noMoreData));
     } else if (response is DataFailed) {
-      emit(TimerArticlesFailed(error: response.error));
+      emit(TimerArticlesFailed(
+        errorMessage:
+            response.error?.response?.data["message"] ?? "Something went wrong",
+      ));
     }
   }
 }

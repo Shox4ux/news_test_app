@@ -21,6 +21,8 @@ class RefreshActiclesCubit
 
     await run(
       () async {
+        emit(RefreshArticlesLoading());
+
         final response = await _apiRepository.getAllNewsArticles(
           request: BreakingNewsRequest(page: _page),
         );
@@ -48,7 +50,7 @@ class RefreshActiclesCubit
             return;
           }
           emit(RefreshArticlesFailed(
-            errorMessage: response.error?.response?.data.toString() ??
+            errorMessage: response.error?.response?.data["message"] ??
                 "Something went wrong",
           ));
         }

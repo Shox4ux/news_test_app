@@ -1,22 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:ionicons/ionicons.dart';
-import 'package:oktoast/oktoast.dart';
-
 import '../../config/router/app_router.dart';
 import '../../domain/models/article.dart';
-import '../cubits/local_articles/local_articles_cubit.dart';
 
-class ArticleDetailsView extends HookWidget {
+class ArticleDetailsPage extends HookWidget {
   final Article article;
 
-  const ArticleDetailsView({Key? key, required this.article}) : super(key: key);
+  const ArticleDetailsPage({Key? key, required this.article}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final localArticlesCubit = BlocProvider.of<LocalArticlesCubit>(context);
-
     return Scaffold(
       appBar: AppBar(
         leading: GestureDetector(

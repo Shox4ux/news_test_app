@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:news_test_app/src/presentation/cubits/timer_articles/timer_articles_cubit.dart';
+import 'package:news_test_app/src/presentation/widgets/error_widget.dart';
 import 'package:oktoast/oktoast.dart';
 import '../../config/router/app_router.dart';
-import '../../domain/models/article.dart';
 import '../../utils/extensions/scroll_controller_extensions.dart';
 import '../cubits/local_articles/local_articles_cubit.dart';
 import '../widgets/article_widget.dart';
@@ -34,7 +34,14 @@ class BreakingNewsWithTimer extends HookWidget {
               return const Center(child: CupertinoActivityIndicator());
             case TimerArticlesFailed:
               return Center(
-                  child: Text(state.error?.response?.data?.toString() ?? ""));
+                child: CustomErrorWidget(
+                  message: state.errorMessage ?? "",
+                  fun: () async {
+                    await remoteArticlesCubit
+                        .getBreakingNewsArticlesWithTimer();
+                  },
+                ),
+              );
             case TimerArticlesSuccess:
               return CustomScrollView(
                 controller: scrollController,

@@ -39,7 +39,7 @@ class _$AppRouter extends RootStackRouter {
       final args = routeData.argsAs<ArticleDetailsViewRouteArgs>();
       return AdaptivePage<dynamic>(
         routeData: routeData,
-        child: ArticleDetailsView(
+        child: ArticleDetailsPage(
           key: args.key,
           article: args.article,
         ),
@@ -115,7 +115,7 @@ class BreakingNewsWithTimerRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [ArticleDetailsView]
+/// [ArticleDetailsPage]
 class ArticleDetailsViewRoute
     extends PageRouteInfo<ArticleDetailsViewRouteArgs> {
   ArticleDetailsViewRoute({

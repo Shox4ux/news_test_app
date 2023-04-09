@@ -11,11 +11,9 @@ abstract class RefreshActiclesState {
   });
 }
 
-class RefreshActiclesInitial extends RefreshActiclesState {
-  RefreshActiclesInitial();
+class RefreshArticlesLoading extends RefreshActiclesState {
+  RefreshArticlesLoading();
 }
-
-class RefreshArticlesLoading extends RefreshActiclesState {}
 
 class RefreshArticlesSuccess extends RefreshActiclesState {
   RefreshArticlesSuccess({super.articles, super.noMoreData});

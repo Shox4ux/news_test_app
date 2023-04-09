@@ -1,18 +1,19 @@
 part of 'timer_articles_cubit.dart';
 
-abstract class TimerArticlesState extends Equatable {
+abstract class TimerArticlesState {
   final List<Article> articles;
   final bool noMoreData;
-  final DioError? error;
+  final String? errorMessage;
 
   const TimerArticlesState({
     this.articles = const [],
     this.noMoreData = true,
-    this.error,
+    this.errorMessage,
   });
+}
 
-  @override
-  List<Object?> get props => [articles, noMoreData, error];
+class TimerActiclesInitial extends TimerArticlesState {
+  TimerActiclesInitial();
 }
 
 class TimerArticlesLoading extends TimerArticlesState {
@@ -24,5 +25,5 @@ class TimerArticlesSuccess extends TimerArticlesState {
 }
 
 class TimerArticlesFailed extends TimerArticlesState {
-  const TimerArticlesFailed({super.error});
+  const TimerArticlesFailed({super.errorMessage});
 }
