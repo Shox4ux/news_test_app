@@ -23,7 +23,7 @@ class BreakingNewsWithTimer extends HookWidget {
       scrollController.onScrollEndsListener(() async {
         await remoteArticlesCubit.getBreakingNewsArticlesWithTimer();
       });
-      return scrollController.dispose;
+      return;
     }, const []);
 
     return SizedBox.expand(

@@ -21,8 +21,6 @@ class RefreshActiclesCubit
 
     await run(
       () async {
-        emit(RefreshArticlesLoading());
-
         final response = await _apiRepository.getAllNewsArticles(
           request: BreakingNewsRequest(page: _page),
         );

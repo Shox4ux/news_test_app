@@ -1,16 +1,11 @@
 import 'dart:async';
-
-import 'package:dio/dio.dart';
-import 'package:equatable/equatable.dart';
 import 'package:oktoast/oktoast.dart';
-
 import '../../../domain/models/article.dart';
 import '../../../domain/models/requests/breaking_news.request.dart';
 import '../../../domain/repositories/api_repository.dart';
 import '../../../utils/constants/nums.dart';
 import '../../../utils/resources/data_state.dart';
 import '../base/base_cubit.dart';
-
 part 'timer_articles_state.dart';
 
 class TimerArticlesCubit extends BaseCubit<TimerArticlesState, List<Article>> {
@@ -27,8 +22,6 @@ class TimerArticlesCubit extends BaseCubit<TimerArticlesState, List<Article>> {
     if (isBusy) return;
 
     await run(() async {
-      emit(const TimerArticlesLoading());
-
       final response = await _apiRepository.getBreakingNewsArticles(
         request: BreakingNewsRequest(page: _page),
       );
@@ -42,8 +35,10 @@ class TimerArticlesCubit extends BaseCubit<TimerArticlesState, List<Article>> {
         emit(TimerArticlesSuccess(articles: data, noMoreData: noMoreData));
 
         // the starting point of the timer
-        await startTimer();
+        await _runTimer();
       } else if (response is DataFailed) {
+        //the stop
+        _shouldStopTimer = true;
         if (response.error?.response?.statusCode == APILimitErrorCode) {
           emit(const TimerArticlesLoading());
           Future.delayed(
@@ -68,7 +63,14 @@ class TimerArticlesCubit extends BaseCubit<TimerArticlesState, List<Article>> {
     _shouldStopTimer = true;
   }
 
-  Future<void> startTimer() async {
+  void startTimer() async {
+    _shouldStopTimer = false;
+    await _runTimer();
+  }
+
+  Future<void> _runTimer() async {
+    _shouldStopTimer = false;
+
     if (_isTimerRunning) return;
     Timer.periodic(const Duration(seconds: 5), (timer) async {
       print("timer on the move");

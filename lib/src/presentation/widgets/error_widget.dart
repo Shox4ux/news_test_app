@@ -13,10 +13,10 @@ class CustomErrorWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Icon(Icons.error, size: 128.h, color: Colors.red),
-        Center(child: Text(message)),
+        Center(child: Text(message, textAlign: TextAlign.center)),
         IconButton(
           onPressed: fun,
-          icon: Icon(Icons.refresh),
+          icon: const Icon(Icons.refresh),
         )
       ],
     );
